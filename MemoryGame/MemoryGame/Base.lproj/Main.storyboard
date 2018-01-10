@@ -60,6 +60,7 @@
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="bzd-vx-oN3" secondAttribute="trailing" id="3fr-vL-Z0M"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="wPO-PB-IWq" secondAttribute="bottom" constant="86" id="8eY-p7-dbx"/>
                             <constraint firstItem="vWK-Xm-V7l" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="Jdh-nq-gbL"/>
                             <constraint firstItem="wPO-PB-IWq" firstAttribute="centerX" secondItem="vWK-Xm-V7l" secondAttribute="centerX" id="MPT-lh-1C3"/>
                             <constraint firstItem="vWK-Xm-V7l" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="10" id="d1k-fL-hSF"/>

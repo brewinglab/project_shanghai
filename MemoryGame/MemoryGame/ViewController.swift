@@ -53,10 +53,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        DispatchQueue.main.asyncAfter(deadline: .now()) {
-            self.reset()
-            // wait; why does this work ?
-        }
+        reset()
         // starting grid of images upon app loading
     }
 
@@ -67,9 +64,7 @@ class ViewController: UIViewController {
     }
     
     @IBAction func resetButtonTapped(_ sender: UIButton) {
-        if (tapLock == 0) {
-            reset()
-        }
+        reset()
         // this is a reset button.
     }
     
@@ -82,7 +77,6 @@ class ViewController: UIViewController {
         // clears array
         // ^ only this array needs to be cleared as the
         // array created for positions has already been cleared
-        compareImages = 0
         
         testfunc()
         
@@ -119,7 +113,8 @@ class ViewController: UIViewController {
         // neglected to change name of function for now
         // creates 4x5 (total 20) UIImageViews - two for each image
         
-        let sideWidth = gridView.bounds.size.width / 4
+        let gridViewWidth = gridView.bounds.size.width
+        let sideWidth = gridViewWidth / 4
         var horzCenter = sideWidth / 2
         var vertCenter = sideWidth / 2
         
