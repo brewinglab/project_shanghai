@@ -31,6 +31,8 @@ class ViewController: UIViewController {
     // creates an array for UIImageViews created in testfunc
     // later used in basically everything
     
+    var totalScore = 0
+    var currentScore = 0
     var nImageTapped = 0
     var nFirstImageTapped = 0
     var nSecondImageTapped = 0
@@ -43,6 +45,8 @@ class ViewController: UIViewController {
     // this is here so that one image can not be tapped on twice
     // ^all of the above are used in the tap action
     
+    @IBOutlet weak var totalScoreLabel: UILabel!
+    @IBOutlet weak var scoreLabel: UILabel!
     @IBOutlet var mainView: UIView!
     @IBOutlet weak var gridView: UIView!
     // ^I only made these so that the game would stop crashing
@@ -54,6 +58,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         reset()
+        totalScore = 0
         // starting grid of images upon app loading
     }
 
@@ -85,6 +90,11 @@ class ViewController: UIViewController {
             // hides the images, which have already been assigned
             // to certain UIImageViews
         }
+        
+        compareImages = 0
+        currentScore = 0
+        scoreLabel.text = ("Score: " + String(currentScore))
+        
     }
     
     func randomisePosition() {
@@ -215,6 +225,11 @@ class ViewController: UIViewController {
                         imageViews[nFirstImageTapped].isUserInteractionEnabled = false
                         imageViews[nSecondImageTapped].isUserInteractionEnabled = false
                         // disables tap action upon correct match
+                        currentScore = currentScore + 1
+                        totalScore = totalScore + 1
+                        scoreLabel.text = ("Score: " + String(currentScore))
+                        totalScoreLabel.text = String("Total Score: " + String(totalScore))
+                        
                     }
                     else {
                         tapLock = 1

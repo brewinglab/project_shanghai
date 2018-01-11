@@ -56,6 +56,20 @@
                                     <constraint firstAttribute="width" secondItem="bzd-vx-oN3" secondAttribute="height" multiplier="375:469" id="rWk-pe-bFx"/>
                                 </constraints>
                             </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Score: 0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TDO-RB-HkI">
+                                <rect key="frame" x="74" y="608" width="124" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Total Score: 0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Yn-Lm-D5d">
+                                <rect key="frame" x="196" y="608" width="119" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -72,8 +86,10 @@
                     </view>
                     <connections>
                         <outlet property="gridView" destination="bzd-vx-oN3" id="gjd-ir-7NC"/>
-                        <outlet property="mainView" destination="8bC-Xf-vdC" id="ajd-Ww-Pfv"/>
+                        <outlet property="mainView" destination="TDO-RB-HkI" id="vMJ-uq-tDS"/>
+                        <outlet property="scoreLabel" destination="TDO-RB-HkI" id="Ge3-p4-jv0"/>
                         <outlet property="timeLabel" destination="vWK-Xm-V7l" id="Gcv-PT-9Y3"/>
+                        <outlet property="totalScoreLabel" destination="3Yn-Lm-D5d" id="ule-tP-cBg"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
