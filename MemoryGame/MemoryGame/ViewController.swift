@@ -31,8 +31,15 @@ class ViewController: UIViewController {
     // creates an array for UIImageViews created in testfunc
     // later used in basically everything
     
+    var timer = Timer()
+    var timeLeft = 40
+    // attempt to make 'fair' starting time
+    
     var totalScore = 0
     var currentScore = 0
+    var roundNumber = 0
+    var matchedThisRound = 0
+    
     var nImageTapped = 0
     var nFirstImageTapped = 0
     var nSecondImageTapped = 0
@@ -41,10 +48,11 @@ class ViewController: UIViewController {
     var tapLock = 0
     // this is here so that tap function does not break if someone
     // spam taps during the time penalisation
-    var nImageTappedCopy = 0
+    var nImageTappedCopy = 700 //random out-of-reach integer
     // this is here so that one image can not be tapped on twice
     // ^all of the above are used in the tap action
     
+    @IBOutlet weak var roundNumberLabel: UILabel!
     @IBOutlet weak var totalScoreLabel: UILabel!
     @IBOutlet weak var scoreLabel: UILabel!
     @IBOutlet var mainView: UIView!
@@ -58,7 +66,8 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         reset()
-        totalScore = 0
+        updateTimer()
+        
         // starting grid of images upon app loading
     }
 
@@ -71,6 +80,55 @@ class ViewController: UIViewController {
     @IBAction func resetButtonTapped(_ sender: UIButton) {
         reset()
         // this is a reset button.
+    }
+    
+    func updateScore() {
+        currentScore = currentScore + 1
+        scoreLabel.text = ("SCORE: " + String(currentScore))
+    }
+    
+    func updateTotalScore() {
+        totalScore = totalScore + 1
+        totalScoreLabel.text = String("TOTAL: " + String(totalScore))
+        
+    }
+    
+    func updateRounds() {
+        roundNumber = roundNumber + 1
+        roundNumberLabel.text = ("ROUND: " + String(roundNumber))
+        
+        if (matchedThisRound == 10) {
+            totalScore = totalScore + timeLeft
+            totalScoreLabel.text = String("TOTAL: " + String(totalScore))
+            reset()
+            // auto-reset for when all 10 matches have been made as well as
+            // score addition equal to time remaining
+        }
+    }
+    
+    func resetScore() {
+        currentScore = 0
+        scoreLabel.text = ("SCORE: " + String(currentScore))
+    }
+
+    func updateTimer() {
+        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.deadline), userInfo: nil, repeats: true)
+    
+    }
+    
+    @objc func deadline() {
+        timeLabel.text = ("TIME: " + String(timeLeft))
+        timeLeft = timeLeft - 1
+        
+        if (timeLeft == -1) {
+            tapLock = 1
+            reset()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                self.tapLock = 0
+            }
+            
+        }
+        
     }
     
     func reset() {
@@ -91,9 +149,12 @@ class ViewController: UIViewController {
             // to certain UIImageViews
         }
         
+        resetScore()
+        updateRounds()
+        matchedThisRound = 0
+        timeLeft = 40
+        
         compareImages = 0
-        currentScore = 0
-        scoreLabel.text = ("Score: " + String(currentScore))
         
     }
     
@@ -179,7 +240,7 @@ class ViewController: UIViewController {
         //creates tap action for UIImageView
         let touch: UITouch = touches.first!
         
-        if (touch.view != mainView) && (touch.view != gridView) {
+        if (touch.view != mainView) && (touch.view != gridView)  {
             // ^ tap action only occurs when UIImageView is tapped
             // used to be something like
             // > if (imageViews.contains(touch.view as! UIImageView
@@ -193,12 +254,12 @@ class ViewController: UIViewController {
                 nImageTapped = imageViews.index(of: tappedImage)!
                 // shows the assigned image of UIImageView upon tap
                 
-                if (nImageTappedCopy == 0 ) {
+                if (nImageTappedCopy == 700) {
                     nImageTappedCopy = nImageTapped
                     // assigns the double-tap lock to only first of two images
                 }
                 
-                if (nImageTapped > 9) {
+                if (nImageTapped >= 10) {
                     nImageTapped = nImageTapped - 10
                 }
                 
@@ -215,7 +276,7 @@ class ViewController: UIViewController {
                     nSecondImageTapped = imageViews.index(of: tappedImage)!
                     
                     imageViews[nImageTappedCopy].isUserInteractionEnabled = true
-                    nImageTappedCopy = 0
+                    nImageTappedCopy = 700
                     // reverts the double-tap lock
                     
                     if (abs(nFirstImageTapped - nSecondImageTapped) == 10) {
@@ -225,11 +286,9 @@ class ViewController: UIViewController {
                         imageViews[nFirstImageTapped].isUserInteractionEnabled = false
                         imageViews[nSecondImageTapped].isUserInteractionEnabled = false
                         // disables tap action upon correct match
-                        currentScore = currentScore + 1
-                        totalScore = totalScore + 1
-                        scoreLabel.text = ("Score: " + String(currentScore))
-                        totalScoreLabel.text = String("Total Score: " + String(totalScore))
-                        
+                        updateScore()
+                        updateTotalScore()
+                        matchedThisRound = matchedThisRound + 1
                     }
                     else {
                         tapLock = 1
