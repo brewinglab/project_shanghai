@@ -117,6 +117,7 @@
                         <outlet property="mainView" destination="8bC-Xf-vdC" id="8ES-mO-Iad"/>
                         <outlet property="roundNumberLabel" destination="XLG-yx-Fpo" id="j0W-Ce-ryo"/>
                         <outlet property="scoreLabel" destination="TDO-RB-HkI" id="Ge3-p4-jv0"/>
+                        <outlet property="scoresStackView" destination="kxn-NH-gJB" id="4Xy-wa-5Co"/>
                         <outlet property="timeLabel" destination="vWK-Xm-V7l" id="Gcv-PT-9Y3"/>
                         <outlet property="totalScoreLabel" destination="3Yn-Lm-D5d" id="ule-tP-cBg"/>
                     </connections>

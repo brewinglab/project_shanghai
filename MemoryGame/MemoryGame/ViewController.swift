@@ -38,7 +38,6 @@ class ViewController: UIViewController {
     var totalScore = 0
     var currentScore = 0
     var roundNumber = 0
-    var matchedThisRound = 0
     
     var nImageTapped = 0
     var nFirstImageTapped = 0
@@ -56,6 +55,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var totalScoreLabel: UILabel!
     @IBOutlet weak var scoreLabel: UILabel!
     @IBOutlet var mainView: UIView!
+    @IBOutlet weak var scoresStackView: UIStackView!
     @IBOutlet weak var gridView: UIView!
     // ^I only made these so that the game would stop crashing
     // whenever tap function was used
@@ -89,21 +89,14 @@ class ViewController: UIViewController {
     
     func updateTotalScore() {
         totalScore = totalScore + 1
-        totalScoreLabel.text = String("TOTAL: " + String(totalScore))
+        totalScoreLabel.text = ("TOTAL: " + String(totalScore))
         
     }
     
     func updateRounds() {
         roundNumber = roundNumber + 1
         roundNumberLabel.text = ("ROUND: " + String(roundNumber))
-        
-        if (matchedThisRound == 10) {
-            totalScore = totalScore + timeLeft
-            totalScoreLabel.text = String("TOTAL: " + String(totalScore))
-            reset()
-            // auto-reset for when all 10 matches have been made as well as
-            // score addition equal to time remaining
-        }
+ 
     }
     
     func resetScore() {
@@ -120,8 +113,15 @@ class ViewController: UIViewController {
         timeLabel.text = ("TIME: " + String(timeLeft))
         timeLeft = timeLeft - 1
         
-        if (timeLeft == -1) {
+        if (timeLeft == 0 || currentScore == 10) {
             tapLock = 1
+            if (currentScore == 10) {
+                totalScore = totalScore + timeLeft
+                totalScoreLabel.text = ("TOTAL: " + String(totalScore))
+                // auto-reset when all matches have been made as well as
+                // score addition equal to remaining time
+            }
+            
             reset()
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                 self.tapLock = 0
@@ -151,7 +151,6 @@ class ViewController: UIViewController {
         
         resetScore()
         updateRounds()
-        matchedThisRound = 0
         timeLeft = 40
         
         compareImages = 0
@@ -240,7 +239,7 @@ class ViewController: UIViewController {
         //creates tap action for UIImageView
         let touch: UITouch = touches.first!
         
-        if (touch.view != mainView) && (touch.view != gridView)  {
+        if (touch.view != mainView) && (touch.view != gridView) && (touch.view != scoresStackView) {
             // ^ tap action only occurs when UIImageView is tapped
             // used to be something like
             // > if (imageViews.contains(touch.view as! UIImageView
@@ -288,7 +287,6 @@ class ViewController: UIViewController {
                         // disables tap action upon correct match
                         updateScore()
                         updateTotalScore()
-                        matchedThisRound = matchedThisRound + 1
                     }
                     else {
                         tapLock = 1
