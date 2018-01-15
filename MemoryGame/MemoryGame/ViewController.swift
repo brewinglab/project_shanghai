@@ -65,8 +65,10 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        reset()
-        updateTimer()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0) {
+            self.reset()
+            self.updateTimer()
+        }
         
         // starting grid of images upon app loading
     }
