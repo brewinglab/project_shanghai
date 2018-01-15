@@ -25,10 +25,10 @@ class ViewController: UIViewController {
     // array containing all of the images I stole from internet creators
  
     var imageCenters = Array<CGPoint>()
-    // creates an array for positions of UIImageViews created in testfunc
+    // creates an array for positions of UIImageViews created in makeGrid
     // later used in randomisation function
     var imageViews = Array<UIImageView>()
-    // creates an array for UIImageViews created in testfunc
+    // creates an array for UIImageViews created in makeGrid
     // later used in basically everything
     
     var timer = Timer()
@@ -47,8 +47,6 @@ class ViewController: UIViewController {
     var tapLock = 0
     // this is here so that tap function does not break if someone
     // spam taps during the time penalisation
-    var nImageTappedCopy = 700 //random out-of-reach integer
-    // this is here so that one image can not be tapped on twice
     // ^all of the above are used in the tap action
     
     @IBOutlet weak var roundNumberLabel: UILabel!
@@ -143,7 +141,7 @@ class ViewController: UIViewController {
         // ^ only this array needs to be cleared as the
         // array created for positions has already been cleared
         
-        testfunc()
+        makeGrid()
         
         for imageView in imageViews {
             imageView.image = UIImage(named: "none.png")
@@ -161,7 +159,7 @@ class ViewController: UIViewController {
     
     func randomisePosition() {
         // randomises position of images using positions
-        // in array imageCenters that were created in testfunc
+        // in array imageCenters that were created in makeGrid
         
         var maxIndex = UInt32(imageCenters.count)
         var randomIndex = Int(arc4random_uniform(maxIndex))
@@ -180,7 +178,7 @@ class ViewController: UIViewController {
         }
     }
     
-    func testfunc() {
+    func makeGrid() {
         
         // neglected to change name of function for now
         // creates 4x5 (total 20) UIImageViews - two for each image
@@ -255,11 +253,6 @@ class ViewController: UIViewController {
                 nImageTapped = imageViews.index(of: tappedImage)!
                 // shows the assigned image of UIImageView upon tap
                 
-                if (nImageTappedCopy == 700) {
-                    nImageTappedCopy = nImageTapped
-                    // assigns the double-tap lock to only first of two images
-                }
-                
                 if (nImageTapped >= 10) {
                     nImageTapped = nImageTapped - 10
                 }
@@ -269,28 +262,26 @@ class ViewController: UIViewController {
                 if (compareImages == 0) {
                     nFirstImageTapped = imageViews.index(of: tappedImage)!
                     compareImages = 1
-                    
-                    imageViews[nImageTappedCopy].isUserInteractionEnabled = false
                     // assigns the double-tap lock
+                    
+                    imageViews[nFirstImageTapped].isUserInteractionEnabled = false
+                    // assigns lock to first image tapped
                 }
                 else {
                     nSecondImageTapped = imageViews.index(of: tappedImage)!
-                    
-                    imageViews[nImageTappedCopy].isUserInteractionEnabled = true
-                    nImageTappedCopy = 700
-                    // reverts the double-tap lock
                     
                     if (abs(nFirstImageTapped - nSecondImageTapped) == 10) {
                         // absolute value used as there are 20 elements
                         // in imageViews but only 10 in images
                         
-                        imageViews[nFirstImageTapped].isUserInteractionEnabled = false
                         imageViews[nSecondImageTapped].isUserInteractionEnabled = false
                         // disables tap action upon correct match
                         updateScore()
                         updateTotalScore()
                     }
                     else {
+                        imageViews[nFirstImageTapped].isUserInteractionEnabled = true
+                        // lock on first image removed
                         tapLock = 1
                         // tap lock for the spam-happy
                         
