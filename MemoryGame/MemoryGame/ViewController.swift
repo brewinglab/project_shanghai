@@ -33,7 +33,7 @@ class ViewController: UIViewController {
     // later used in basically everything
     
     var timer = Timer()
-    var timeLeft = 40
+    var timeLeft = 0
     // attempt to make 'fair' starting time
     
     var totalScore = 0
@@ -55,11 +55,17 @@ class ViewController: UIViewController {
     @IBOutlet weak var scoreLabel: UILabel!
     @IBOutlet var mainView: UIView!
     @IBOutlet weak var scoresStackView: UIStackView!
+    @IBOutlet weak var buttonsStackView: UIStackView!
     @IBOutlet weak var gridView: UIView!
     // ^I only made these so that the game would stop crashing
     // whenever tap function was used
     @IBOutlet weak var timeLabel: UILabel!
     // timeLabel which is currently unused
+    
+    
+    
+    let alert = UIAlertController(title: "GAME OVER", message: "", preferredStyle: UIAlertControllerStyle.alert)
+    // game over alert
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -78,21 +84,17 @@ class ViewController: UIViewController {
         }
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-            SwiftSpinner.hide({
- 
-                self.updateTimer()
-            })
+            SwiftSpinner.hide()
         }
         
         
-        /*
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0) {
+        
+        alert.addAction(UIAlertAction(title: "Continue", style: .default, handler: { _ in
             self.reset()
-            self.updateTimer()
-        }
- */
-        
-        // starting grid of images upon app loading
+        }))
+        alert.addAction(UIAlertAction(title: "Menu", style: .default, handler: { _ in
+            
+        }))
     }
 
     override func didReceiveMemoryWarning() {
@@ -101,9 +103,7 @@ class ViewController: UIViewController {
   
     }
     
-    @objc func playButtonTapped(_ sender: UIButton) {
-        reset()
-    }
+    
     
     @IBAction func resetButtonTapped(_ sender: UIButton) {
         reset()
@@ -140,25 +140,26 @@ class ViewController: UIViewController {
     @objc func deadline() {
         timeLabel.text = ("TIME: " + String(timeLeft))
         timeLeft = timeLeft - 1
-        
-        if (timeLeft == 0 || currentScore == 10) {
+    
+        if (currentScore == 10) {
             tapLock = 1
-            if (currentScore == 10) {
-                totalScore = totalScore + timeLeft
-                totalScoreLabel.text = ("TOTAL: " + String(totalScore))
-                // auto-reset when all matches have been made as well as
-                // score addition equal to remaining time
-            }
-            else if (timeLeft == 0) {
-                //shouldPerformSegue(withIdentifier: )
-            }
+                
+            totalScore = totalScore + timeLeft
+            totalScoreLabel.text = ("TOTAL: " + String(totalScore))
+            // auto-reset when all matches have been made as well as
+            // score addition equal to remaining time
             
             reset()
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                 self.tapLock = 0
             }
-            
         }
+        else if (timeLeft == 0) {
+            timer.invalidate()
+            
+            self.present(alert, animated: true, completion: nil)
+        }
+        
         
     }
     
@@ -182,7 +183,8 @@ class ViewController: UIViewController {
         
         resetScore()
         updateRounds()
-        timeLeft = 40
+        timeLeft = 3
+        updateTimer()
         
         compareImages = 0
         
@@ -270,64 +272,66 @@ class ViewController: UIViewController {
         //creates tap action for UIImageView
         let touch: UITouch = touches.first!
         
-        if (touch.view != mainView) && (touch.view != gridView) && (touch.view != scoresStackView) {
-            // ^ tap action only occurs when UIImageView is tapped
-            // used to be something like
-            // > if (imageViews.contains(touch.view as! UIImageView
-            // ^ this was causing app to crash when anything other than a UIImageView
-            // was tapped
-            
-            let tappedImage = touch.view as! UIImageView
-            // something that took too long to work out
-            
-            if (imageViews.contains(touch.view as! UIImageView)) && (tapLock == 0) {
-                nImageTapped = imageViews.index(of: tappedImage)!
-                // shows the assigned image of UIImageView upon tap
+        if (touch.view != mainView) && (touch.view != gridView) {
+            if (touch.view != scoresStackView) && (touch.view != buttonsStackView) {
+                // ^ tap action only occurs when UIImageView is tapped
+                // used to be something like
+                // > if (imageViews.contains(touch.view as! UIImageView
+                // ^ this was causing app to crash when anything other than a UIImageView
+                // was tapped
                 
-                if (nImageTapped >= 10) {
-                    nImageTapped = nImageTapped - 10
-                }
+                let tappedImage = touch.view as! UIImageView
+                // something that took too long to work out
                 
-                tappedImage.image = images[nImageTapped]
-                
-                if (compareImages == 0) {
-                    nFirstImageTapped = imageViews.index(of: tappedImage)!
-                    compareImages = 1
-                    // assigns the double-tap lock
+                if (imageViews.contains(touch.view as! UIImageView)) && (tapLock == 0) {
+                    nImageTapped = imageViews.index(of: tappedImage)!
+                    // shows the assigned image of UIImageView upon tap
                     
-                    imageViews[nFirstImageTapped].isUserInteractionEnabled = false
-                    // assigns lock to first image tapped
-                }
-                else {
-                    nSecondImageTapped = imageViews.index(of: tappedImage)!
+                    if (nImageTapped >= 10) {
+                        nImageTapped = nImageTapped - 10
+                    }
                     
-                    if (abs(nFirstImageTapped - nSecondImageTapped) == 10) {
-                        // absolute value used as there are 20 elements
-                        // in imageViews but only 10 in images
+                    tappedImage.image = images[nImageTapped]
+                    
+                    if (compareImages == 0) {
+                        nFirstImageTapped = imageViews.index(of: tappedImage)!
+                        compareImages = 1
+                        // assigns the double-tap lock
                         
-                        imageViews[nSecondImageTapped].isUserInteractionEnabled = false
-                        // disables tap action upon correct match
-                        updateScore()
-                        updateTotalScore()
+                        imageViews[nFirstImageTapped].isUserInteractionEnabled = false
+                        // assigns lock to first image tapped
                     }
                     else {
-                        imageViews[nFirstImageTapped].isUserInteractionEnabled = true
-                        // lock on first image removed
-                        tapLock = 1
-                        // tap lock for the spam-happy
+                        nSecondImageTapped = imageViews.index(of: tappedImage)!
                         
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) {
-                            self.imageViews[self.nFirstImageTapped].image = UIImage(named: "none.png")
-                            self.imageViews[self.nSecondImageTapped].image = UIImage(named: "none.png")
-                            // delayed to both give time and penalise time
-                            // so that one cannot just randomly tap on everything
+                        if (abs(nFirstImageTapped - nSecondImageTapped) == 10) {
+                            // absolute value used as there are 20 elements
+                            // in imageViews but only 10 in images
                             
-                            self.tapLock = 0
-                            // reverts tap lock
+                            imageViews[nSecondImageTapped].isUserInteractionEnabled = false
+                            // disables tap action upon correct match
+                            updateScore()
+                            updateTotalScore()
                         }
-                        
+                        else {
+                            imageViews[nFirstImageTapped].isUserInteractionEnabled = true
+                            // lock on first image removed
+                            tapLock = 1
+                            // tap lock for the spam-happy
+                            
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) {
+                                self.imageViews[self.nFirstImageTapped].image = UIImage(named: "none.png")
+                                self.imageViews[self.nSecondImageTapped].image = UIImage(named: "none.png")
+                                // delayed to both give time and penalise time
+                                // so that one cannot just randomly tap on everything
+                                
+                                self.tapLock = 0
+                                // reverts tap lock
+                            }
+                            
+                        }
+                        compareImages = 0
                     }
-                    compareImages = 0
                 }
             }
         }
