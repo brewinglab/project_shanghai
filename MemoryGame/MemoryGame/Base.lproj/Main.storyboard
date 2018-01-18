@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="fPZ-cG-ZGJ">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -37,21 +37,41 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="zcz-Ya-TST">
                                 <rect key="frame" x="37" y="541" width="300.5" height="80"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wPO-PB-IWq">
-                                        <rect key="frame" x="0.0" y="0.0" width="300.5" height="40"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="kZB-nk-q0Q">
+                                        <rect key="frame" x="0.0" y="0.0" width="300" height="40"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wPO-PB-IWq">
+                                                <rect key="frame" x="0.0" y="0.0" width="140" height="40"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="40" id="0ir-3P-H91"/>
+                                                    <constraint firstAttribute="width" constant="140" id="CPc-En-4Kh"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="17"/>
+                                                <state key="normal" title="RESET">
+                                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="resetButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="bQT-zu-uhD"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kWR-aD-X1v">
+                                                <rect key="frame" x="160" y="0.0" width="140" height="40"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="17"/>
+                                                <state key="normal" title="BACK">
+                                                    <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                </state>
+                                                <connections>
+                                                    <segue destination="fPZ-cG-ZGJ" kind="show" id="sim-UH-vYP"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="40" id="0ir-3P-H91"/>
-                                            <constraint firstAttribute="width" constant="300" id="CPc-En-4Kh"/>
+                                            <constraint firstItem="kWR-aD-X1v" firstAttribute="height" secondItem="wPO-PB-IWq" secondAttribute="height" id="TjO-QZ-NdG"/>
+                                            <constraint firstItem="kWR-aD-X1v" firstAttribute="width" secondItem="wPO-PB-IWq" secondAttribute="width" id="Y2w-Kh-eU2"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="17"/>
-                                        <state key="normal" title="RESET">
-                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="resetButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="bQT-zu-uhD"/>
-                                        </connections>
-                                    </button>
+                                    </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kxn-NH-gJB">
                                         <rect key="frame" x="0.0" y="40" width="300.5" height="40"/>
                                         <subviews>
@@ -88,9 +108,6 @@
                                         </subviews>
                                     </stackView>
                                 </subviews>
-                                <constraints>
-                                    <constraint firstItem="kxn-NH-gJB" firstAttribute="centerX" secondItem="wPO-PB-IWq" secondAttribute="centerX" id="Z82-8W-AgG"/>
-                                </constraints>
                             </stackView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bzd-vx-oN3">
                                 <rect key="frame" x="0.0" y="60" width="375" height="469"/>
@@ -126,5 +143,124 @@
             </objects>
             <point key="canvasLocation" x="136.80000000000001" y="132.68365817091455"/>
         </scene>
+        <!--View Controller-->
+        <scene sceneID="2H3-Fg-xIf">
+            <objects>
+                <viewController id="fPZ-cG-ZGJ" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="XmK-Fg-hpz">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="chZ-wS-wfS">
+                                <rect key="frame" x="38" y="293" width="300" height="100"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IIV-wJ-Loa">
+                                        <rect key="frame" x="0.0" y="0.0" width="300" height="40"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="300" id="3Mf-xa-K2K"/>
+                                            <constraint firstAttribute="height" constant="40" id="gwo-U0-2dO"/>
+                                        </constraints>
+                                        <state key="normal" title="PLAY">
+                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <segue destination="BYZ-38-t0r" kind="show" id="1Dy-zL-lSZ"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fyx-kz-5Bg">
+                                        <rect key="frame" x="0.0" y="60" width="300" height="40"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="300" id="R7T-0U-Nqb"/>
+                                            <constraint firstAttribute="height" constant="40" id="SpB-zx-7Mk"/>
+                                        </constraints>
+                                        <state key="normal" title="INFO">
+                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <segue destination="8jt-YZ-cXb" kind="show" id="w4d-3h-Auk"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="chZ-wS-wfS" firstAttribute="centerX" secondItem="o80-q6-n50" secondAttribute="centerX" id="1b1-mo-WRJ"/>
+                            <constraint firstItem="chZ-wS-wfS" firstAttribute="centerY" secondItem="o80-q6-n50" secondAttribute="centerY" id="ihL-bx-lXC"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="o80-q6-n50"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="6Po-OL-riH" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="208.80000000000001" y="-564.46776611694156"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="KCM-Af-mhD">
+            <objects>
+                <viewController id="8jt-YZ-cXb" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="sV6-oo-MEm">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="BxY-mA-Qsn">
+                                <rect key="frame" x="38" y="298" width="300" height="90"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Memory Game" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="S0F-tc-kJL">
+                                        <rect key="frame" x="0.0" y="0.0" width="300" height="40"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="40" id="VSU-pH-pNF"/>
+                                            <constraint firstAttribute="width" constant="300" id="Wnd-E2-M9m"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Version 1.1.0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XiI-dc-cUI">
+                                        <rect key="frame" x="0.0" y="50" width="300" height="40"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="XiI-dc-cUI" firstAttribute="height" secondItem="S0F-tc-kJL" secondAttribute="height" id="3DY-jU-0LV"/>
+                                    <constraint firstItem="XiI-dc-cUI" firstAttribute="width" secondItem="S0F-tc-kJL" secondAttribute="width" id="joR-Pc-Rqb"/>
+                                </constraints>
+                            </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PQ6-Ql-Tik">
+                                <rect key="frame" x="88" y="428" width="200" height="40"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="200" id="IwU-Bt-vzp"/>
+                                    <constraint firstAttribute="height" constant="40" id="w8O-HW-CmJ"/>
+                                </constraints>
+                                <state key="normal" title="&lt; BACK">
+                                    <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                </state>
+                                <connections>
+                                    <segue destination="fPZ-cG-ZGJ" kind="show" id="SFT-QD-gfK"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="BxY-mA-Qsn" firstAttribute="centerY" secondItem="7vA-xa-5cE" secondAttribute="centerY" id="2P2-p3-6LF"/>
+                            <constraint firstItem="BxY-mA-Qsn" firstAttribute="centerX" secondItem="7vA-xa-5cE" secondAttribute="centerX" id="Ton-dv-eCz"/>
+                            <constraint firstItem="PQ6-Ql-Tik" firstAttribute="centerX" secondItem="BxY-mA-Qsn" secondAttribute="centerX" id="ayu-n7-2Kz"/>
+                            <constraint firstItem="PQ6-Ql-Tik" firstAttribute="top" secondItem="BxY-mA-Qsn" secondAttribute="bottom" constant="40" id="ihc-vf-Eph"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="7vA-xa-5cE"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="JCe-ec-mx7" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-609" y="68"/>
+        </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="sim-UH-vYP"/>
+    </inferredMetricsTieBreakers>
 </document>

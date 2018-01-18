@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftSpinner
 
 class ViewController: UIViewController {
     
@@ -59,14 +60,37 @@ class ViewController: UIViewController {
     // whenever tap function was used
     @IBOutlet weak var timeLabel: UILabel!
     // timeLabel which is currently unused
-        
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+    
+        SwiftSpinner.show("3")
         
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            SwiftSpinner.show("2")
+        }
+        
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            SwiftSpinner.show("1")
+            
+            self.reset()
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            SwiftSpinner.hide({
+ 
+                self.updateTimer()
+            })
+        }
+        
+        
+        /*
         DispatchQueue.main.asyncAfter(deadline: .now() + 0) {
             self.reset()
             self.updateTimer()
         }
+ */
         
         // starting grid of images upon app loading
     }
@@ -75,6 +99,10 @@ class ViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
   
+    }
+    
+    @objc func playButtonTapped(_ sender: UIButton) {
+        reset()
     }
     
     @IBAction func resetButtonTapped(_ sender: UIButton) {
@@ -120,6 +148,9 @@ class ViewController: UIViewController {
                 totalScoreLabel.text = ("TOTAL: " + String(totalScore))
                 // auto-reset when all matches have been made as well as
                 // score addition equal to remaining time
+            }
+            else if (timeLeft == 0) {
+                //shouldPerformSegue(withIdentifier: )
             }
             
             reset()
