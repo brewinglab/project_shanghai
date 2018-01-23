@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AudioToolbox
 import SwiftSpinner
 
 class ViewController: UIViewController {
@@ -43,12 +44,16 @@ class ViewController: UIViewController {
     var nImageTapped = 0
     var nFirstImageTapped = 0
     var nSecondImageTapped = 0
+    var direction = 0
+    // direction for spinny spin
+    
     var compareImages = 0
     // these are here to compare two tapped images
     var tapLock = 0
     // this is here so that tap function does not break if someone
     // spam taps during the time penalisation
     // ^all of the above are used in the tap action
+    
     // let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTappedFunction))
     
     @IBOutlet weak var roundNumberLabel: UILabel!
@@ -327,26 +332,15 @@ class ViewController: UIViewController {
                             imageViews[nSecondImageTapped].isUserInteractionEnabled = false
                             // disables tap action upon correct match
                             
+                            spinnyspin(image: nFirstImageTapped)
+                            spinnyspin(image: nSecondImageTapped)
+                            // animations for correct match
+                            
                             imageViews[nFirstImageTapped].layer.borderWidth = 6
                             imageViews[nSecondImageTapped].layer.borderWidth = 6
                             imageViews[nFirstImageTapped].layer.borderColor = UIColor(named: "tcSeafoamGreen")!.cgColor
                             imageViews[nSecondImageTapped].layer.borderColor = UIColor(named: "tcSeafoamGreen")!.cgColor
                             // borders for imageviews upon correct match
-                            
-                            UIView.animate(withDuration: 0.6) { () -> Void in                                 self.imageViews[self.nFirstImageTapped].transform = CGAffineTransform(rotationAngle: CGFloat.pi)
-                            }
-                            UIView.animate(withDuration: 0.6, delay: 0.4, options: UIViewAnimationOptions.curveEaseInOut, animations: { () -> Void in
-                                self.imageViews[self.nFirstImageTapped].transform = CGAffineTransform(rotationAngle: CGFloat.pi * 2)
-                            }, completion: nil)
-                            
-                            UIView.animate(withDuration: 0.6) { () -> Void in                                 self.imageViews[self.nSecondImageTapped].transform = CGAffineTransform(rotationAngle: -3.14159)
-                            }
-                            UIView.animate(withDuration: 0.6, delay: 0.4, options: UIViewAnimationOptions.curveEaseInOut, animations: { () -> Void in
-                                self.imageViews[self.nSecondImageTapped].transform = CGAffineTransform(rotationAngle: -3.14159 * 2)
-                            }, completion: nil)
-                            
-                            
-                            // animations for correct match
                             
                             updateScore()
                             updateTotalScore()
@@ -375,8 +369,22 @@ class ViewController: UIViewController {
         }
         
     }
+    
+    func spinnyspin(image: Int) {
+        if (image == nFirstImageTapped) {
+            direction = 1
+        }
+        else {
+            direction = -1
+        }
+        
+        UIView.animate(withDuration: 0.6) { () -> Void in
+            self.imageViews[image].transform = CGAffineTransform(rotationAngle: CGFloat(3.14159 * Double(self.direction)))
+        }
+        UIView.animate(withDuration: 0.6, delay: 0.4, options: UIViewAnimationOptions.curveEaseInOut, animations: { () -> Void in
+            self.imageViews[image].transform = CGAffineTransform(rotationAngle: CGFloat(3.14159 * 2 * Double(self.direction)))
+        }, completion: nil)
+    }
 
 }
-
-
 
