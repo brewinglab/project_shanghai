@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8857B178201717990070B951 /* correctsound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 8857B177201717990070B951 /* correctsound.mp3 */; };
 		88C66B311FFCC1EC00DDC6DE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88C66B301FFCC1EC00DDC6DE /* AppDelegate.swift */; };
 		88C66B331FFCC1EC00DDC6DE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88C66B321FFCC1EC00DDC6DE /* ViewController.swift */; };
 		88C66B361FFCC1EC00DDC6DE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 88C66B341FFCC1EC00DDC6DE /* Main.storyboard */; };
@@ -19,17 +20,7 @@
 		2B35437BCFDDAE9D0D17057B /* Pods_MemoryGame.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MemoryGame.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		379E995DC8C1BECFDC303C37 /* Pods-MemoryGame.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MemoryGame.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MemoryGame/Pods-MemoryGame.debug.xcconfig"; sourceTree = "<group>"; };
 		707299A3EEFB3873B2CF008C /* Pods-MemoryGame.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MemoryGame.release.xcconfig"; path = "Pods/Target Support Files/Pods-MemoryGame/Pods-MemoryGame.release.xcconfig"; sourceTree = "<group>"; };
-		88C2EC5C1FFD2A2F00E6A63D /* burger.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = burger.png; sourceTree = "<group>"; };
-		88C2EC5D1FFD2A2F00E6A63D /* pudding.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pudding.png; sourceTree = "<group>"; };
-		88C2EC5E1FFD2A3000E6A63D /* donut.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = donut.png; sourceTree = "<group>"; };
-		88C2EC5F1FFD2A3000E6A63D /* onigiri.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = onigiri.png; sourceTree = "<group>"; };
-		88C2EC601FFD2A3000E6A63D /* apple.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = apple.png; sourceTree = "<group>"; };
-		88C2EC611FFD2A3000E6A63D /* pizza.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pizza.png; sourceTree = "<group>"; };
-		88C2EC621FFD2A3000E6A63D /* bread.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bread.png; sourceTree = "<group>"; };
-		88C2EC631FFD2A3000E6A63D /* hotdog.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hotdog.png; sourceTree = "<group>"; };
-		88C2EC641FFD2A3000E6A63D /* sushi.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sushi.png; sourceTree = "<group>"; };
-		88C2EC651FFD2A3100E6A63D /* cupcake.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cupcake.png; sourceTree = "<group>"; };
-		88C2EC661FFD2A3100E6A63D /* none.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = none.png; sourceTree = "<group>"; };
+		8857B177201717990070B951 /* correctsound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = correctsound.mp3; sourceTree = "<group>"; };
 		88C66B2D1FFCC1EC00DDC6DE /* MemoryGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MemoryGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		88C66B301FFCC1EC00DDC6DE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		88C66B321FFCC1EC00DDC6DE /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -68,24 +59,6 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		88C2EC671FFD2A3F00E6A63D /* images */ = {
-			isa = PBXGroup;
-			children = (
-				88C2EC601FFD2A3000E6A63D /* apple.png */,
-				88C2EC621FFD2A3000E6A63D /* bread.png */,
-				88C2EC5C1FFD2A2F00E6A63D /* burger.png */,
-				88C2EC651FFD2A3100E6A63D /* cupcake.png */,
-				88C2EC5E1FFD2A3000E6A63D /* donut.png */,
-				88C2EC631FFD2A3000E6A63D /* hotdog.png */,
-				88C2EC661FFD2A3100E6A63D /* none.png */,
-				88C2EC5F1FFD2A3000E6A63D /* onigiri.png */,
-				88C2EC611FFD2A3000E6A63D /* pizza.png */,
-				88C2EC5D1FFD2A2F00E6A63D /* pudding.png */,
-				88C2EC641FFD2A3000E6A63D /* sushi.png */,
-			);
-			path = images;
-			sourceTree = "<group>";
-		};
 		88C66B241FFCC1EC00DDC6DE = {
 			isa = PBXGroup;
 			children = (
@@ -109,11 +82,11 @@
 			children = (
 				88C66B301FFCC1EC00DDC6DE /* AppDelegate.swift */,
 				88C66B321FFCC1EC00DDC6DE /* ViewController.swift */,
+				8857B177201717990070B951 /* correctsound.mp3 */,
 				88C66B341FFCC1EC00DDC6DE /* Main.storyboard */,
 				88C66B371FFCC1EC00DDC6DE /* Assets.xcassets */,
 				88C66B391FFCC1EC00DDC6DE /* LaunchScreen.storyboard */,
 				88C66B3C1FFCC1EC00DDC6DE /* Info.plist */,
-				88C2EC671FFD2A3F00E6A63D /* images */,
 			);
 			path = MemoryGame;
 			sourceTree = "<group>";
@@ -181,6 +154,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				88C66B3B1FFCC1EC00DDC6DE /* LaunchScreen.storyboard in Resources */,
+				8857B178201717990070B951 /* correctsound.mp3 in Resources */,
 				88C66B381FFCC1EC00DDC6DE /* Assets.xcassets in Resources */,
 				88C66B361FFCC1EC00DDC6DE /* Main.storyboard in Resources */,
 			);

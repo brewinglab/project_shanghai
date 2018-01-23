@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import AudioToolbox
+import AVFoundation
 import SwiftSpinner
 
 class ViewController: UIViewController {
@@ -46,6 +46,7 @@ class ViewController: UIViewController {
     var nSecondImageTapped = 0
     var direction = 0
     // direction for spinny spin
+    var player: AVAudioPlayer = AVAudioPlayer()
     
     var compareImages = 0
     // these are here to compare two tapped images
@@ -342,6 +343,7 @@ class ViewController: UIViewController {
                             imageViews[nSecondImageTapped].layer.borderColor = UIColor(named: "tcSeafoamGreen")!.cgColor
                             // borders for imageviews upon correct match
                             
+                            playSound(named: "correctsound")
                             updateScore()
                             updateTotalScore()
                         }
@@ -385,6 +387,14 @@ class ViewController: UIViewController {
             self.imageViews[image].transform = CGAffineTransform(rotationAngle: CGFloat(3.14159 * 2 * Double(self.direction)))
         }, completion: nil)
     }
-
+    
+    
+    @discardableResult func playSound(named soundName: String) -> AVAudioPlayer {
+        let soundURL = Bundle.main.path(forResource: soundName, ofType: "mp3")
+        player = try! AVAudioPlayer(contentsOf: NSURL(fileURLWithPath: soundURL!) as URL)
+        player.play()
+        return player
+    }
+    
 }
 
