@@ -19,7 +19,7 @@
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="MemoryGame" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ViewControllerGame" id="BYZ-38-t0r" customClass="ViewController" customModule="MemoryGame" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -48,7 +48,7 @@
                                                     <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                                                 </state>
                                                 <connections>
-                                                    <segue destination="fPZ-cG-ZGJ" kind="show" id="sim-UH-vYP"/>
+                                                    <segue destination="fPZ-cG-ZGJ" kind="show" identifier="back" id="sim-UH-vYP"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wPO-PB-IWq">
@@ -147,7 +147,7 @@
         <!--View Controller-->
         <scene sceneID="2H3-Fg-xIf">
             <objects>
-                <viewController id="fPZ-cG-ZGJ" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ViewControllerMenu" id="fPZ-cG-ZGJ" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="XmK-Fg-hpz">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -201,7 +201,7 @@
         <!--View Controller-->
         <scene sceneID="KCM-Af-mhD">
             <objects>
-                <viewController id="8jt-YZ-cXb" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ViewControllerInfo" id="8jt-YZ-cXb" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="sV6-oo-MEm">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

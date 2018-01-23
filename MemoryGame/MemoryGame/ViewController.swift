@@ -49,6 +49,7 @@ class ViewController: UIViewController {
     // this is here so that tap function does not break if someone
     // spam taps during the time penalisation
     // ^all of the above are used in the tap action
+    // let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTappedFunction))
     
     @IBOutlet weak var roundNumberLabel: UILabel!
     @IBOutlet weak var totalScoreLabel: UILabel!
@@ -78,9 +79,10 @@ class ViewController: UIViewController {
         
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            self.reset()
+            
             SwiftSpinner.show("1")
             
-            self.reset()
         }
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
@@ -93,7 +95,7 @@ class ViewController: UIViewController {
             self.reset()
         }))
         alert.addAction(UIAlertAction(title: "Menu", style: .default, handler: { _ in
-            
+            self.performSegue(withIdentifier: "back", sender: self)
         }))
     }
 
@@ -138,11 +140,10 @@ class ViewController: UIViewController {
     }
     
     @objc func deadline() {
-        timeLabel.text = ("TIME: " + String(timeLeft))
         timeLeft = timeLeft - 1
+         timeLabel.text = ("TIME: " + String(timeLeft))
     
         if (currentScore == 10) {
-            tapLock = 1
                 
             totalScore = totalScore + timeLeft
             totalScoreLabel.text = ("TOTAL: " + String(totalScore))
@@ -150,9 +151,6 @@ class ViewController: UIViewController {
             // score addition equal to remaining time
             
             reset()
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                self.tapLock = 0
-            }
         }
         else if (timeLeft == 0) {
             timer.invalidate()
@@ -183,8 +181,16 @@ class ViewController: UIViewController {
         
         resetScore()
         updateRounds()
-        timeLeft = 3
+        timeLeft = 41
+        timer.invalidate()
         updateTimer()
+        
+        tapLock = 1
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            self.tapLock = 0
+            
+        }
         
         compareImages = 0
         
@@ -242,6 +248,7 @@ class ViewController: UIViewController {
                 
                 imageView.isUserInteractionEnabled = true
                 // enabled for each so that tap function works
+                //imageView.addGestureRecognizer(tapRecognizer)
                 
                 imageView.layer.cornerRadius = 8
                 imageView.layer.masksToBounds = true
@@ -267,6 +274,15 @@ class ViewController: UIViewController {
         
         randomisePosition()
     }
+    
+    /*
+    @objc func imageTappedFunction(gestureRecognizer: UITapGestureRecognizer) {
+        //let tappedImage = gestureRecognizer.view! as! UIImageView
+        print("tapped")
+        
+    }
+ */
+    
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         //creates tap action for UIImageView
@@ -337,7 +353,7 @@ class ViewController: UIViewController {
         }
         
     }
-    
+
 }
 
 
