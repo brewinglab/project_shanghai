@@ -326,6 +326,28 @@ class ViewController: UIViewController {
                             
                             imageViews[nSecondImageTapped].isUserInteractionEnabled = false
                             // disables tap action upon correct match
+                            
+                            imageViews[nFirstImageTapped].layer.borderWidth = 6
+                            imageViews[nSecondImageTapped].layer.borderWidth = 6
+                            imageViews[nFirstImageTapped].layer.borderColor = UIColor(named: "tcSeafoamGreen")!.cgColor
+                            imageViews[nSecondImageTapped].layer.borderColor = UIColor(named: "tcSeafoamGreen")!.cgColor
+                            // borders for imageviews upon correct match
+                            
+                            UIView.animate(withDuration: 0.6) { () -> Void in                                 self.imageViews[self.nFirstImageTapped].transform = CGAffineTransform(rotationAngle: CGFloat.pi)
+                            }
+                            UIView.animate(withDuration: 0.6, delay: 0.4, options: UIViewAnimationOptions.curveEaseInOut, animations: { () -> Void in
+                                self.imageViews[self.nFirstImageTapped].transform = CGAffineTransform(rotationAngle: CGFloat.pi * 2)
+                            }, completion: nil)
+                            
+                            UIView.animate(withDuration: 0.6) { () -> Void in                                 self.imageViews[self.nSecondImageTapped].transform = CGAffineTransform(rotationAngle: -3.14159)
+                            }
+                            UIView.animate(withDuration: 0.6, delay: 0.4, options: UIViewAnimationOptions.curveEaseInOut, animations: { () -> Void in
+                                self.imageViews[self.nSecondImageTapped].transform = CGAffineTransform(rotationAngle: -3.14159 * 2)
+                            }, completion: nil)
+                            
+                            
+                            // animations for correct match
+                            
                             updateScore()
                             updateTotalScore()
                         }
