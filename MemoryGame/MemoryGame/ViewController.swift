@@ -162,6 +162,7 @@ class ViewController: UIViewController {
             timer.invalidate()
             
             self.present(alert, animated: true, completion: nil)
+            playSound(named: "gameoversound")
         }
         
         
