@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		8857B178201717990070B951 /* correctsound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 8857B177201717990070B951 /* correctsound.mp3 */; };
 		8857B17A201AC52A0070B951 /* gameoversound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 8857B179201AC52A0070B951 /* gameoversound.mp3 */; };
+		8857B17C201B05580070B951 /* Scoreboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8857B17B201B05580070B951 /* Scoreboard.swift */; };
 		88C66B311FFCC1EC00DDC6DE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88C66B301FFCC1EC00DDC6DE /* AppDelegate.swift */; };
 		88C66B331FFCC1EC00DDC6DE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88C66B321FFCC1EC00DDC6DE /* ViewController.swift */; };
 		88C66B361FFCC1EC00DDC6DE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 88C66B341FFCC1EC00DDC6DE /* Main.storyboard */; };
@@ -23,6 +24,7 @@
 		707299A3EEFB3873B2CF008C /* Pods-MemoryGame.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MemoryGame.release.xcconfig"; path = "Pods/Target Support Files/Pods-MemoryGame/Pods-MemoryGame.release.xcconfig"; sourceTree = "<group>"; };
 		8857B177201717990070B951 /* correctsound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = correctsound.mp3; sourceTree = "<group>"; };
 		8857B179201AC52A0070B951 /* gameoversound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = gameoversound.mp3; sourceTree = "<group>"; };
+		8857B17B201B05580070B951 /* Scoreboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scoreboard.swift; sourceTree = "<group>"; };
 		88C66B2D1FFCC1EC00DDC6DE /* MemoryGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MemoryGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		88C66B301FFCC1EC00DDC6DE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		88C66B321FFCC1EC00DDC6DE /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -84,6 +86,7 @@
 			children = (
 				88C66B301FFCC1EC00DDC6DE /* AppDelegate.swift */,
 				88C66B321FFCC1EC00DDC6DE /* ViewController.swift */,
+				8857B17B201B05580070B951 /* Scoreboard.swift */,
 				8857B177201717990070B951 /* correctsound.mp3 */,
 				8857B179201AC52A0070B951 /* gameoversound.mp3 */,
 				88C66B341FFCC1EC00DDC6DE /* Main.storyboard */,
@@ -225,6 +228,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8857B17C201B05580070B951 /* Scoreboard.swift in Sources */,
 				88C66B331FFCC1EC00DDC6DE /* ViewController.swift in Sources */,
 				88C66B311FFCC1EC00DDC6DE /* AppDelegate.swift in Sources */,
 			);

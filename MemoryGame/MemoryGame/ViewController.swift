@@ -32,6 +32,15 @@ class ViewController: UIViewController {
     var imageViews = Array<UIImageView>()
     // creates an array for UIImageViews created in makeGrid
     // later used in basically everything
+    var recentScores: [Int] = [0, 0, 0, 0, 0]
+    var sortedScores: [Int] = [0, 0, 0, 0, 0]
+    var sortScoreCopy = 0
+    // copy of a number in array
+    var sortNumber = 0
+    // number of sorts
+    var recentScoreNumber = 0
+    var printNumber = 1
+    var recentScorePrintNumber = 0
     
     var timer = Timer()
     var timeLeft = 0
@@ -99,6 +108,8 @@ class ViewController: UIViewController {
         
         alert.addAction(UIAlertAction(title: "Continue", style: .default, handler: { _ in
             self.reset()
+            self.resetTotalScore()
+            self.resetRounds()
         }))
         alert.addAction(UIAlertAction(title: "Menu", style: .default, handler: { _ in
             self.performSegue(withIdentifier: "back", sender: self)
@@ -116,28 +127,6 @@ class ViewController: UIViewController {
     @IBAction func resetButtonTapped(_ sender: UIButton) {
         reset()
         // this is a reset button.
-    }
-    
-    func updateScore() {
-        currentScore = currentScore + 1
-        scoreLabel.text = ("SCORE: " + String(currentScore))
-    }
-    
-    func updateTotalScore() {
-        totalScore = totalScore + 1
-        totalScoreLabel.text = ("TOTAL: " + String(totalScore))
-        
-    }
-    
-    func updateRounds() {
-        roundNumber = roundNumber + 1
-        roundNumberLabel.text = ("ROUND: " + String(roundNumber))
- 
-    }
-    
-    func resetScore() {
-        currentScore = 0
-        scoreLabel.text = ("SCORE: " + String(currentScore))
     }
 
     func updateTimer() {
@@ -163,6 +152,59 @@ class ViewController: UIViewController {
             
             self.present(alert, animated: true, completion: nil)
             playSound(named: "gameoversound")
+            
+            if (recentScoreNumber > 4) {
+                recentScoreNumber = 0
+            }
+            recentScores[recentScoreNumber] = totalScore
+            recentScorePrintNumber = recentScoreNumber
+            printNumber = 1
+            
+            print("RECENT SCORES")
+            for _ in 0...recentScoreNumber {
+                print(String(printNumber) + ": " + String(recentScores[recentScorePrintNumber]))
+                printNumber = printNumber + 1
+                recentScorePrintNumber = recentScorePrintNumber - 1
+            }
+
+            if (recentScoreNumber < 4) {
+                recentScorePrintNumber = 4
+                
+                for _ in recentScoreNumber...3 {
+                    print(String(printNumber) + ": " + String(recentScores[recentScorePrintNumber]))
+                    printNumber = printNumber + 1
+                    recentScorePrintNumber = recentScorePrintNumber - 1
+                }
+            }
+            
+            recentScoreNumber = recentScoreNumber + 1
+            // sort from most recent -> oldest
+            
+            
+            sortedScores = recentScores
+            
+            for i in 0...3 {
+                sortNumber = i
+                
+                for _ in 0...sortNumber {
+                    if sortedScores[sortNumber] < sortedScores[sortNumber + 1] {
+                        sortScoreCopy = sortedScores[sortNumber]
+                        sortedScores[sortNumber] = sortedScores[sortNumber + 1]
+                        sortedScores[sortNumber + 1] = sortScoreCopy
+                        
+                        sortNumber = sortNumber - 1
+                    }
+                    
+                }
+            }
+            // sort in descending order
+            
+            print("BEST TO WORST")
+            for i in 0...4 {
+                print(String(i + 1) + ": " + String(sortedScores[i]))
+            }
+            // print in descending order
+            
         }
         
         
@@ -397,5 +439,35 @@ class ViewController: UIViewController {
         return player
     }
     
+    func updateScore() {
+        currentScore = currentScore + 1
+        scoreLabel.text = ("SCORE: " + String(currentScore))
+    }
+    
+    func updateTotalScore() {
+        totalScore = totalScore + 1
+        totalScoreLabel.text = ("TOTAL: " + String(totalScore))
+    }
+    
+    func updateRounds() {
+        roundNumber = roundNumber + 1
+        roundNumberLabel.text = ("ROUND: " + String(roundNumber))
+    }
+    
+    func resetScore() {
+        currentScore = 0
+        scoreLabel.text = ("SCORE: " + String(currentScore))
+    }
+    
+    func resetTotalScore() {
+        totalScore = 0
+        totalScoreLabel.text = ("TOTAL: " + String(totalScore))
+    }
+    
+    func resetRounds() {
+        roundNumber = 1
+        roundNumberLabel.text = ("ROUND: " + String(roundNumber))
+    }
+
 }
 
