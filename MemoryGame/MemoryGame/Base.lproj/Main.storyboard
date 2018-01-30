@@ -355,6 +355,9 @@
                                         <state key="normal" title="&lt; BACK">
                                             <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                                         </state>
+                                        <connections>
+                                            <segue destination="fPZ-cG-ZGJ" kind="show" id="9LC-Lc-fKc"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -387,6 +390,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="SFT-QD-gfK"/>
+        <segue reference="9LC-Lc-fKc"/>
     </inferredMetricsTieBreakers>
 </document>

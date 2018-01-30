@@ -25,15 +25,17 @@ class ViewController: UIViewController {
         UIImage(named: "sushi.png")!,
     ]
     // array containing all of the images I stole from internet creators
- 
-    var imageCenters = Array<CGPoint>()
-    // creates an array for positions of UIImageViews created in makeGrid
-    // later used in randomisation function
     var imageViews = Array<UIImageView>()
+    var imageViewsTestCopy = Array<UIImageView>()
     // creates an array for UIImageViews created in makeGrid
     // later used in basically everything
+    var imageCenters = Array<CGPoint>()
+    var imageCentersTestCopy = [CGPoint?](repeating: nil, count: 20)
+    // creates an array for positions of UIImageViews created in makeGrid
+    // later used in randomisation function
     var recentScores: [Int] = [0, 0, 0, 0, 0]
     var sortedScores: [Int] = [0, 0, 0, 0, 0]
+    // scores.
     var sortScoreCopy = 0
     // copy of a number in array
     var sortNumber = 0
@@ -63,8 +65,8 @@ class ViewController: UIViewController {
     // this is here so that tap function does not break if someone
     // spam taps during the time penalisation
     // ^all of the above are used in the tap action
+    var firstGameStart = true
     
-    // let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTappedFunction))
     
     @IBOutlet weak var roundNumberLabel: UILabel!
     @IBOutlet weak var totalScoreLabel: UILabel!
@@ -85,29 +87,12 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    
-        SwiftSpinner.show("3")
+        firstGameStart = true
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            SwiftSpinner.show("2")
-        }
-        
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            self.reset()
-            
-            SwiftSpinner.show("1")
-            
-        }
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-            SwiftSpinner.hide()
-        }
-        
-        
+        threeTwoOneGo()
         
         alert.addAction(UIAlertAction(title: "Continue", style: .default, handler: { _ in
-            self.reset()
+            self.threeTwoOneGo()
             self.resetTotalScore()
             self.resetRounds()
         }))
@@ -122,9 +107,8 @@ class ViewController: UIViewController {
   
     }
     
-    
-    
     @IBAction func resetButtonTapped(_ sender: UIButton) {
+        threeTwoOneGo()
         reset()
         // this is a reset button.
     }
@@ -145,6 +129,10 @@ class ViewController: UIViewController {
             // auto-reset when all matches have been made as well as
             // score addition equal to remaining time
             
+            SwiftSpinner.show("ROUND " + String(roundNumber))
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                SwiftSpinner.hide()
+            }
             reset()
         }
         else if (timeLeft == 0) {
@@ -180,7 +168,6 @@ class ViewController: UIViewController {
             recentScoreNumber = recentScoreNumber + 1
             // sort from most recent -> oldest
             
-            
             sortedScores = recentScores
             
             for i in 0...3 {
@@ -212,17 +199,18 @@ class ViewController: UIViewController {
     
     func reset() {
         for imageView in gridView.subviews {
+            imageView.layer.borderWidth = 0
             imageView.removeFromSuperview()
         }
         // removes all previously generated UIImageViews
-        imageViews.removeAll()
+        imageViewsTestCopy.removeAll()
         // clears array
         // ^ only this array needs to be cleared as the
         // array created for positions has already been cleared
         
         makeGrid()
         
-        for imageView in imageViews {
+        for imageView in imageViewsTestCopy {
             imageView.image = UIImage(named: "none.png")
             // hides the images, which have already been assigned
             // to certain UIImageViews
@@ -249,17 +237,17 @@ class ViewController: UIViewController {
         // randomises position of images using positions
         // in array imageCenters that were created in makeGrid
         
-        var maxIndex = UInt32(imageCenters.count)
+        var maxIndex = UInt32(imageCentersTestCopy.count)
         var randomIndex = Int(arc4random_uniform(maxIndex))
-        var randomCenter = imageCenters[randomIndex]
+        var randomCenter = imageCentersTestCopy[randomIndex]
         
-        for imageView in imageViews {
+        for imageView in imageViewsTestCopy {
             
-            maxIndex = UInt32(imageCenters.count)
+            maxIndex = UInt32(imageCentersTestCopy.count)
             randomIndex = Int(arc4random_uniform(maxIndex))
-            randomCenter = imageCenters[randomIndex]
-            imageView.center = randomCenter
-            imageCenters.remove(at: randomIndex)
+            randomCenter = imageCentersTestCopy[randomIndex]
+            imageView.center = randomCenter!
+            imageCentersTestCopy.remove(at: randomIndex)
             // last line so that no two UIImageViews may occupy the same position
             // ^accomplished by removing a position from the array the moment
             // it becomes occupied
@@ -279,59 +267,60 @@ class ViewController: UIViewController {
         var imageNumber = 0
         // explanation immediately below
         
-        for _ in 1...5 {
-            for _ in 1...4 {
-                if (imageNumber == 10) {
-                    imageNumber = 0
-                    // assigns one image to two UIImageViews
+        if (firstGameStart == true) {
+            for _ in 1...5 {
+                for _ in 1...4 {
+                    if (imageNumber == 10) {
+                        imageNumber = 0
+                        // assigns one image to two UIImageViews
+                    }
+                    let imageView = UIImageView(image: images[imageNumber])
+                    // assigns an image to each UIImageView
+                    imageView.frame = CGRect(x: 0, y: 0, width: sideWidth - 8, height: sideWidth - 8)
+                    // I wanted there to be some space between the images.
+                    // ^ creating the size of UIImageViews for images
+                    
+                    let imageCenter = CGPoint(x: horzCenter, y: vertCenter)
+                    imageView.center = imageCenter
+                    // keeps track of UIImageView locations
+                    
+                    imageView.isUserInteractionEnabled = true
+                    // enabled for each so that tap function works
+                    //imageView.addGestureRecognizer(tapRecognizer)
+                    
+                    imageView.layer.cornerRadius = 8
+                    imageView.layer.masksToBounds = true
+                    // I felt like it
+                    imageView.layer.borderColor = UIColor(named: "tcSeafoamGreen")!.cgColor
+                    
+                    gridView.addSubview(imageView)
+                    // adds UIImageView to UIView
+                    imageViews.append(imageView)
+                    // adds UIImageView to imageViews array
+                    // ^for further usage in basically everything
+                    imageCenters.append(imageCenter)
+                    // adds positions to imageCenters array
+                    // for usage in randomisation function
+                    
+                    imageNumber = imageNumber + 1
+                    horzCenter = horzCenter + sideWidth
+                    // moves position to create a row
                 }
-                let imageView = UIImageView(image: images[imageNumber])
-                // assigns an image to each UIImageView
-                imageView.frame = CGRect(x: 0, y: 0, width: sideWidth - 8, height: sideWidth - 8)
-                // I wanted there to be some space between the images.
-                // ^ creating the size of UIImageViews for images
-    
-                let imageCenter = CGPoint(x: horzCenter, y: vertCenter)
-                imageView.center = imageCenter
-                // keeps track of UIImageView locations
-                
-                imageView.isUserInteractionEnabled = true
-                // enabled for each so that tap function works
-                //imageView.addGestureRecognizer(tapRecognizer)
-                
-                imageView.layer.cornerRadius = 8
-                imageView.layer.masksToBounds = true
-                // I felt like it
-                
-                gridView.addSubview(imageView)
-                // adds UIImageView to UIView
-                imageViews.append(imageView)
-                // adds UIImageView to imageViews array
-                // ^for further usage in basically everything
-                imageCenters.append(imageCenter)
-                // adds positions to imageCenters array
-                // for usage in randomisation function
-                
-                imageNumber = imageNumber + 1
-                horzCenter = horzCenter + sideWidth
-                // moves position to create a row
+                vertCenter = vertCenter + sideWidth
+                horzCenter = sideWidth / 2
+                // moves position to create a new row beneath the previous
             }
-            vertCenter = vertCenter + sideWidth
-            horzCenter = sideWidth / 2
-            // moves position to create a new row beneath the previous
+            firstGameStart = false
         }
         
+        imageViewsTestCopy += imageViews
+        for imageView in imageViewsTestCopy {
+            gridView.addSubview(imageView)
+        }
+        
+        imageCentersTestCopy = imageCenters
         randomisePosition()
     }
-    
-    /*
-    @objc func imageTappedFunction(gestureRecognizer: UITapGestureRecognizer) {
-        //let tappedImage = gestureRecognizer.view! as! UIImageView
-        print("tapped")
-        
-    }
- */
-    
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         //creates tap action for UIImageView
@@ -359,31 +348,29 @@ class ViewController: UIViewController {
                     tappedImage.image = images[nImageTapped]
                     
                     if (compareImages == 0) {
-                        nFirstImageTapped = imageViews.index(of: tappedImage)!
+                        nFirstImageTapped = imageViewsTestCopy.index(of: tappedImage)!
                         compareImages = 1
                         // assigns the double-tap lock
                         
-                        imageViews[nFirstImageTapped].isUserInteractionEnabled = false
+                        imageViewsTestCopy[nFirstImageTapped].isUserInteractionEnabled = false
                         // assigns lock to first image tapped
                     }
                     else {
-                        nSecondImageTapped = imageViews.index(of: tappedImage)!
+                        nSecondImageTapped = imageViewsTestCopy.index(of: tappedImage)!
                         
                         if (abs(nFirstImageTapped - nSecondImageTapped) == 10) {
                             // absolute value used as there are 20 elements
                             // in imageViews but only 10 in images
                             
-                            imageViews[nSecondImageTapped].isUserInteractionEnabled = false
+                            imageViewsTestCopy[nSecondImageTapped].isUserInteractionEnabled = false
                             // disables tap action upon correct match
                             
                             spinnyspin(image: nFirstImageTapped)
                             spinnyspin(image: nSecondImageTapped)
                             // animations for correct match
                             
-                            imageViews[nFirstImageTapped].layer.borderWidth = 6
-                            imageViews[nSecondImageTapped].layer.borderWidth = 6
-                            imageViews[nFirstImageTapped].layer.borderColor = UIColor(named: "tcSeafoamGreen")!.cgColor
-                            imageViews[nSecondImageTapped].layer.borderColor = UIColor(named: "tcSeafoamGreen")!.cgColor
+                            imageViewsTestCopy[nFirstImageTapped].layer.borderWidth = 6
+                            imageViewsTestCopy[nSecondImageTapped].layer.borderWidth = 6
                             // borders for imageviews upon correct match
                             
                             playSound(named: "correctsound")
@@ -391,14 +378,14 @@ class ViewController: UIViewController {
                             updateTotalScore()
                         }
                         else {
-                            imageViews[nFirstImageTapped].isUserInteractionEnabled = true
+                            imageViewsTestCopy[nFirstImageTapped].isUserInteractionEnabled = true
                             // lock on first image removed
                             tapLock = 1
                             // tap lock for the spam-happy
                             
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) {
-                                self.imageViews[self.nFirstImageTapped].image = UIImage(named: "none.png")
-                                self.imageViews[self.nSecondImageTapped].image = UIImage(named: "none.png")
+                                self.imageViewsTestCopy[self.nFirstImageTapped].image = UIImage(named: "none.png")
+                                self.imageViewsTestCopy[self.nSecondImageTapped].image = UIImage(named: "none.png")
                                 // delayed to both give time and penalise time
                                 // so that one cannot just randomly tap on everything
                                 
@@ -424,10 +411,10 @@ class ViewController: UIViewController {
         }
         
         UIView.animate(withDuration: 0.6) { () -> Void in
-            self.imageViews[image].transform = CGAffineTransform(rotationAngle: CGFloat(3.14159 * Double(self.direction)))
+            self.imageViewsTestCopy[image].transform = CGAffineTransform(rotationAngle: CGFloat(3.14159 * Double(self.direction)))
         }
         UIView.animate(withDuration: 0.6, delay: 0.4, options: UIViewAnimationOptions.curveEaseInOut, animations: { () -> Void in
-            self.imageViews[image].transform = CGAffineTransform(rotationAngle: CGFloat(3.14159 * 2 * Double(self.direction)))
+            self.imageViewsTestCopy[image].transform = CGAffineTransform(rotationAngle: CGFloat(3.14159 * 2 * Double(self.direction)))
         }, completion: nil)
     }
     
@@ -467,6 +454,30 @@ class ViewController: UIViewController {
     func resetRounds() {
         roundNumber = 1
         roundNumberLabel.text = ("ROUND: " + String(roundNumber))
+    }
+    
+    func threeTwoOneGo() {
+        SwiftSpinner.show("3")
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            SwiftSpinner.show("2")
+        }
+        
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            SwiftSpinner.show("1")
+            
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            self.reset()
+            
+            SwiftSpinner.show("ROUND 1")
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
+            SwiftSpinner.hide()
+        }
     }
 
 }
