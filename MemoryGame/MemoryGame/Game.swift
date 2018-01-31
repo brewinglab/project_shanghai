@@ -10,7 +10,7 @@ import UIKit
 import AVFoundation
 import SwiftSpinner
 
-class ViewController: UIViewController {
+class Game: UIViewController {
     
     var images: [UIImage] = [
         UIImage(named: "apple.png")!,
@@ -26,13 +26,13 @@ class ViewController: UIViewController {
     ]
     // array containing all of the images I stole from internet creators
     var imageViews = Array<UIImageView>()
-    var imageViewsTestCopy = Array<UIImageView>()
     // creates an array for UIImageViews created in makeGrid
     // later used in basically everything
     var imageCenters = Array<CGPoint>()
     var imageCentersTestCopy = [CGPoint?](repeating: nil, count: 20)
     // creates an array for positions of UIImageViews created in makeGrid
     // later used in randomisation function
+    
     var recentScores: [Int] = [0, 0, 0, 0, 0]
     var sortedScores: [Int] = [0, 0, 0, 0, 0]
     // scores.
@@ -46,17 +46,17 @@ class ViewController: UIViewController {
     
     var timer = Timer()
     var timeLeft = 0
-    // attempt to make 'fair' starting time
     
     var totalScore = 0
     var currentScore = 0
+    var matchedThisRound = 0
     var roundNumber = 0
+    var streak = 0
     
     var nImageTapped = 0
     var nFirstImageTapped = 0
     var nSecondImageTapped = 0
-    var direction = 0
-    // direction for spinny spin
+
     var player: AVAudioPlayer = AVAudioPlayer()
     
     var compareImages = 0
@@ -69,8 +69,8 @@ class ViewController: UIViewController {
     
     
     @IBOutlet weak var roundNumberLabel: UILabel!
-    @IBOutlet weak var totalScoreLabel: UILabel!
-    @IBOutlet weak var scoreLabel: UILabel!
+    @IBOutlet weak var scoresLabel: UILabel!
+    @IBOutlet weak var streakCounter: UILabel!
     @IBOutlet var mainView: UIView!
     @IBOutlet weak var scoresStackView: UIStackView!
     @IBOutlet weak var buttonsStackView: UIStackView!
@@ -79,8 +79,6 @@ class ViewController: UIViewController {
     // whenever tap function was used
     @IBOutlet weak var timeLabel: UILabel!
     // timeLabel which is currently unused
-    
-    
     
     let alert = UIAlertController(title: "GAME OVER", message: "", preferredStyle: UIAlertControllerStyle.alert)
     // game over alert
@@ -93,8 +91,8 @@ class ViewController: UIViewController {
         
         alert.addAction(UIAlertAction(title: "Continue", style: .default, handler: { _ in
             self.threeTwoOneGo()
-            self.resetTotalScore()
-            self.resetRounds()
+            self.resetScore()
+            self.updateRounds()
         }))
         alert.addAction(UIAlertAction(title: "Menu", style: .default, handler: { _ in
             self.performSegue(withIdentifier: "back", sender: self)
@@ -109,10 +107,13 @@ class ViewController: UIViewController {
     
     @IBAction func resetButtonTapped(_ sender: UIButton) {
         threeTwoOneGo()
-        reset()
-        // this is a reset button.
+        // not reset, but restart
     }
 
+    @IBAction func menuButtonTapped(_ sender: UIButton) {
+        self.dismiss(animated: true, completion: timer.invalidate)
+        // addresses crash upon tap and delayed game over sound
+    }
     func updateTimer() {
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.deadline), userInfo: nil, repeats: true)
     
@@ -122,10 +123,11 @@ class ViewController: UIViewController {
         timeLeft = timeLeft - 1
          timeLabel.text = ("TIME: " + String(timeLeft))
     
-        if (currentScore == 10) {
+        if (matchedThisRound == 10) {
                 
             totalScore = totalScore + timeLeft
-            totalScoreLabel.text = ("TOTAL: " + String(totalScore))
+            
+            reset()
             // auto-reset when all matches have been made as well as
             // score addition equal to remaining time
             
@@ -133,7 +135,6 @@ class ViewController: UIViewController {
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                 SwiftSpinner.hide()
             }
-            reset()
         }
         else if (timeLeft == 0) {
             timer.invalidate()
@@ -200,17 +201,12 @@ class ViewController: UIViewController {
     func reset() {
         for imageView in gridView.subviews {
             imageView.layer.borderWidth = 0
-            imageView.removeFromSuperview()
+            imageView.isUserInteractionEnabled = true
         }
-        // removes all previously generated UIImageViews
-        imageViewsTestCopy.removeAll()
-        // clears array
-        // ^ only this array needs to be cleared as the
-        // array created for positions has already been cleared
         
         makeGrid()
         
-        for imageView in imageViewsTestCopy {
+        for imageView in imageViews {
             imageView.image = UIImage(named: "none.png")
             // hides the images, which have already been assigned
             // to certain UIImageViews
@@ -218,7 +214,11 @@ class ViewController: UIViewController {
         
         resetScore()
         updateRounds()
-        timeLeft = 41
+        resetStreak()
+        playSound(named: "nextround")
+        
+        timeLeft = 40 + 1
+        // 1 second for "ROUND X" popup
         timer.invalidate()
         updateTimer()
         
@@ -230,6 +230,7 @@ class ViewController: UIViewController {
         }
         
         compareImages = 0
+        matchedThisRound = 0
         
     }
     
@@ -241,7 +242,7 @@ class ViewController: UIViewController {
         var randomIndex = Int(arc4random_uniform(maxIndex))
         var randomCenter = imageCentersTestCopy[randomIndex]
         
-        for imageView in imageViewsTestCopy {
+        for imageView in imageViews {
             
             maxIndex = UInt32(imageCentersTestCopy.count)
             randomIndex = Int(arc4random_uniform(maxIndex))
@@ -275,7 +276,6 @@ class ViewController: UIViewController {
                         // assigns one image to two UIImageViews
                     }
                     let imageView = UIImageView(image: images[imageNumber])
-                    // assigns an image to each UIImageView
                     imageView.frame = CGRect(x: 0, y: 0, width: sideWidth - 8, height: sideWidth - 8)
                     // I wanted there to be some space between the images.
                     // ^ creating the size of UIImageViews for images
@@ -313,11 +313,6 @@ class ViewController: UIViewController {
             firstGameStart = false
         }
         
-        imageViewsTestCopy += imageViews
-        for imageView in imageViewsTestCopy {
-            gridView.addSubview(imageView)
-        }
-        
         imageCentersTestCopy = imageCenters
         randomisePosition()
     }
@@ -337,7 +332,7 @@ class ViewController: UIViewController {
                 let tappedImage = touch.view as! UIImageView
                 // something that took too long to work out
                 
-                if (imageViews.contains(touch.view as! UIImageView)) && (tapLock == 0) {
+                if (imageViews.contains(tappedImage)) && (tapLock == 0) {
                     nImageTapped = imageViews.index(of: tappedImage)!
                     // shows the assigned image of UIImageView upon tap
                     
@@ -348,51 +343,54 @@ class ViewController: UIViewController {
                     tappedImage.image = images[nImageTapped]
                     
                     if (compareImages == 0) {
-                        nFirstImageTapped = imageViewsTestCopy.index(of: tappedImage)!
+                        nFirstImageTapped = imageViews.index(of: tappedImage)!
                         compareImages = 1
                         // assigns the double-tap lock
                         
-                        imageViewsTestCopy[nFirstImageTapped].isUserInteractionEnabled = false
+                        imageViews[nFirstImageTapped].isUserInteractionEnabled = false
                         // assigns lock to first image tapped
                     }
                     else {
-                        nSecondImageTapped = imageViewsTestCopy.index(of: tappedImage)!
+                        nSecondImageTapped = imageViews.index(of: tappedImage)!
                         
                         if (abs(nFirstImageTapped - nSecondImageTapped) == 10) {
                             // absolute value used as there are 20 elements
                             // in imageViews but only 10 in images
                             
-                            imageViewsTestCopy[nSecondImageTapped].isUserInteractionEnabled = false
+                            imageViews[nSecondImageTapped].isUserInteractionEnabled = false
                             // disables tap action upon correct match
                             
-                            spinnyspin(image: nFirstImageTapped)
-                            spinnyspin(image: nSecondImageTapped)
+                            spinnyspin()
+                            spinnyspinReverse()
                             // animations for correct match
                             
-                            imageViewsTestCopy[nFirstImageTapped].layer.borderWidth = 6
-                            imageViewsTestCopy[nSecondImageTapped].layer.borderWidth = 6
+                            imageViews[nFirstImageTapped].layer.borderWidth = 6
+                            imageViews[nSecondImageTapped].layer.borderWidth = 6
                             // borders for imageviews upon correct match
                             
-                            playSound(named: "correctsound")
+                            streak = streak + 1
+                            streakCounter.text = ("+" + String(streak))
                             updateScore()
-                            updateTotalScore()
+                            playSound(named: "correctsound")
+                            
+                            matchedThisRound = matchedThisRound + 1
                         }
                         else {
-                            imageViewsTestCopy[nFirstImageTapped].isUserInteractionEnabled = true
+                            imageViews[nFirstImageTapped].isUserInteractionEnabled = true
                             // lock on first image removed
                             tapLock = 1
                             // tap lock for the spam-happy
                             
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) {
-                                self.imageViewsTestCopy[self.nFirstImageTapped].image = UIImage(named: "none.png")
-                                self.imageViewsTestCopy[self.nSecondImageTapped].image = UIImage(named: "none.png")
+                                self.imageViews[self.nFirstImageTapped].image = UIImage(named: "none.png")
+                                self.imageViews[self.nSecondImageTapped].image = UIImage(named: "none.png")
                                 // delayed to both give time and penalise time
                                 // so that one cannot just randomly tap on everything
                                 
                                 self.tapLock = 0
                                 // reverts tap lock
                             }
-                            
+                            resetStreak()
                         }
                         compareImages = 0
                     }
@@ -402,38 +400,28 @@ class ViewController: UIViewController {
         
     }
     
-    func spinnyspin(image: Int) {
-        if (image == nFirstImageTapped) {
-            direction = 1
-        }
-        else {
-            direction = -1
-        }
-        
-        UIView.animate(withDuration: 0.6) { () -> Void in
-            self.imageViewsTestCopy[image].transform = CGAffineTransform(rotationAngle: CGFloat(3.14159 * Double(self.direction)))
-        }
-        UIView.animate(withDuration: 0.6, delay: 0.4, options: UIViewAnimationOptions.curveEaseInOut, animations: { () -> Void in
-            self.imageViewsTestCopy[image].transform = CGAffineTransform(rotationAngle: CGFloat(3.14159 * 2 * Double(self.direction)))
-        }, completion: nil)
-    }
-    
-    
     @discardableResult func playSound(named soundName: String) -> AVAudioPlayer {
         let soundURL = Bundle.main.path(forResource: soundName, ofType: "mp3")
-        player = try! AVAudioPlayer(contentsOf: NSURL(fileURLWithPath: soundURL!) as URL)
+        player = try! AVAudioPlayer(contentsOf: NSURL(fileURLWithPath: soundURL!) as URL, fileTypeHint: AVFileType.mp3.rawValue)
         player.play()
         return player
     }
     
+    
     func updateScore() {
-        currentScore = currentScore + 1
-        scoreLabel.text = ("SCORE: " + String(currentScore))
+        currentScore = currentScore + streak
+        totalScore = totalScore + streak
+        scoresLabel.text = ("SCORE: " + String(currentScore) + " / " + String(totalScore))
     }
     
-    func updateTotalScore() {
-        totalScore = totalScore + 1
-        totalScoreLabel.text = ("TOTAL: " + String(totalScore))
+    func resetScore() {
+        currentScore = 0
+        scoresLabel.text = ("SCORE: 0 / " + String(totalScore))
+    }
+    
+    func resetStreak() {
+        streak = 0
+        streakCounter.text = ("")
     }
     
     func updateRounds() {
@@ -441,22 +429,10 @@ class ViewController: UIViewController {
         roundNumberLabel.text = ("ROUND: " + String(roundNumber))
     }
     
-    func resetScore() {
-        currentScore = 0
-        scoreLabel.text = ("SCORE: " + String(currentScore))
-    }
-    
-    func resetTotalScore() {
-        totalScore = 0
-        totalScoreLabel.text = ("TOTAL: " + String(totalScore))
-    }
-    
-    func resetRounds() {
-        roundNumber = 1
-        roundNumberLabel.text = ("ROUND: " + String(roundNumber))
-    }
-    
     func threeTwoOneGo() {
+        roundNumber = 0
+        totalScore = 0
+        
         SwiftSpinner.show("3")
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
@@ -479,6 +455,24 @@ class ViewController: UIViewController {
             SwiftSpinner.hide()
         }
     }
-
+    
+    func spinnyspin() {
+        UIView.animate(withDuration: 0.6) { () -> Void in
+            self.imageViews[self.nFirstImageTapped].transform = CGAffineTransform(rotationAngle: CGFloat(3.14159))
+        }
+        UIView.animate(withDuration: 0.6, delay: 0.4, options: UIViewAnimationOptions.curveEaseInOut, animations: { () -> Void in
+            self.imageViews[self.nFirstImageTapped].transform = CGAffineTransform(rotationAngle: CGFloat(3.14159 * 2))
+        }, completion: nil)
+    }
+    
+    func spinnyspinReverse() {
+        UIView.animate(withDuration: 0.6) { () -> Void in
+            self.imageViews[self.nSecondImageTapped].transform = CGAffineTransform(rotationAngle: CGFloat(3.14159 * -1))
+        }
+        UIView.animate(withDuration: 0.6, delay: 0.4, options: UIViewAnimationOptions.curveEaseInOut, animations: { () -> Void in
+            self.imageViews[self.nSecondImageTapped].transform = CGAffineTransform(rotationAngle: CGFloat(3.14159 * -2))
+        }, completion: nil)
+    }
+    
 }
 
