@@ -87,12 +87,11 @@ class Game: UIViewController {
         super.viewDidLoad()
         firstGameStart = true
         
-        threeTwoOneGo()
+        countdown()
         
         alert.addAction(UIAlertAction(title: "Continue", style: .default, handler: { _ in
-            self.threeTwoOneGo()
             self.resetScore()
-            self.updateRounds()
+            self.countdown()
         }))
         alert.addAction(UIAlertAction(title: "Menu", style: .default, handler: { _ in
             self.performSegue(withIdentifier: "back", sender: self)
@@ -106,7 +105,7 @@ class Game: UIViewController {
     }
     
     @IBAction func resetButtonTapped(_ sender: UIButton) {
-        threeTwoOneGo()
+        countdown()
         // not reset, but restart
     }
 
@@ -360,8 +359,8 @@ class Game: UIViewController {
                             imageViews[nSecondImageTapped].isUserInteractionEnabled = false
                             // disables tap action upon correct match
                             
-                            spinnyspin()
-                            spinnyspinReverse()
+                            spin360(image: imageViews[nFirstImageTapped])
+                            spin360Reverse(image: imageViews[nSecondImageTapped])
                             // animations for correct match
                             
                             imageViews[nFirstImageTapped].layer.borderWidth = 6
@@ -429,7 +428,7 @@ class Game: UIViewController {
         roundNumberLabel.text = ("ROUND: " + String(roundNumber))
     }
     
-    func threeTwoOneGo() {
+    func countdown() {
         roundNumber = 0
         totalScore = 0
         
@@ -456,21 +455,21 @@ class Game: UIViewController {
         }
     }
     
-    func spinnyspin() {
+    func spin360(image: UIImageView) {
         UIView.animate(withDuration: 0.6) { () -> Void in
-            self.imageViews[self.nFirstImageTapped].transform = CGAffineTransform(rotationAngle: CGFloat(3.14159))
+            image.transform = CGAffineTransform(rotationAngle: CGFloat(3.14159))
         }
         UIView.animate(withDuration: 0.6, delay: 0.4, options: UIViewAnimationOptions.curveEaseInOut, animations: { () -> Void in
-            self.imageViews[self.nFirstImageTapped].transform = CGAffineTransform(rotationAngle: CGFloat(3.14159 * 2))
+            image.transform = CGAffineTransform(rotationAngle: CGFloat(3.14159 * 2))
         }, completion: nil)
     }
     
-    func spinnyspinReverse() {
+    func spin360Reverse(image: UIImageView) {
         UIView.animate(withDuration: 0.6) { () -> Void in
-            self.imageViews[self.nSecondImageTapped].transform = CGAffineTransform(rotationAngle: CGFloat(3.14159 * -1))
+            image.transform = CGAffineTransform(rotationAngle: CGFloat(3.14159 * -1))
         }
         UIView.animate(withDuration: 0.6, delay: 0.4, options: UIViewAnimationOptions.curveEaseInOut, animations: { () -> Void in
-            self.imageViews[self.nSecondImageTapped].transform = CGAffineTransform(rotationAngle: CGFloat(3.14159 * -2))
+            image.transform = CGAffineTransform(rotationAngle: CGFloat(3.14159 * -2))
         }, completion: nil)
     }
     
