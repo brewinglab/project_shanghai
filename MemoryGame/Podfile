@@ -7,5 +7,6 @@ target 'MemoryGame' do
 
   # Pods for MemoryGame
   pod 'SwiftSpinner', '~> 1.5'
+  pod 'Alamofire', '~> 4.5'
 
 end
