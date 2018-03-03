@@ -10,6 +10,8 @@
 		8857B178201717990070B951 /* correctsound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 8857B177201717990070B951 /* correctsound.mp3 */; };
 		8857B17A201AC52A0070B951 /* gameoversound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 8857B179201AC52A0070B951 /* gameoversound.mp3 */; };
 		8857B17C201B05580070B951 /* Scoreboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8857B17B201B05580070B951 /* Scoreboard.swift */; };
+		88717F44204ACCB100389A91 /* CouchbaseLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88717F42204ACCB100389A91 /* CouchbaseLite.framework */; };
+		88717F45204ACCB100389A91 /* CouchbaseLiteListener.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88717F43204ACCB100389A91 /* CouchbaseLiteListener.framework */; };
 		88C66B311FFCC1EC00DDC6DE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88C66B301FFCC1EC00DDC6DE /* AppDelegate.swift */; };
 		88C66B331FFCC1EC00DDC6DE /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88C66B321FFCC1EC00DDC6DE /* Game.swift */; };
 		88C66B361FFCC1EC00DDC6DE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 88C66B341FFCC1EC00DDC6DE /* Main.storyboard */; };
@@ -25,6 +27,9 @@
 		8857B177201717990070B951 /* correctsound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = correctsound.mp3; sourceTree = "<group>"; };
 		8857B179201AC52A0070B951 /* gameoversound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = gameoversound.mp3; sourceTree = "<group>"; };
 		8857B17B201B05580070B951 /* Scoreboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scoreboard.swift; sourceTree = "<group>"; };
+		88717F41204ACCAB00389A91 /* MemoryGame-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "MemoryGame-Bridging-Header.h"; path = "MemoryGame/MemoryGame-Bridging-Header.h"; sourceTree = "<group>"; };
+		88717F42204ACCB100389A91 /* CouchbaseLite.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CouchbaseLite.framework; path = MemoryGame/CouchbaseLite.framework; sourceTree = "<group>"; };
+		88717F43204ACCB100389A91 /* CouchbaseLiteListener.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CouchbaseLiteListener.framework; path = MemoryGame/CouchbaseLiteListener.framework; sourceTree = "<group>"; };
 		88C66B2D1FFCC1EC00DDC6DE /* MemoryGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MemoryGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		88C66B301FFCC1EC00DDC6DE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		88C66B321FFCC1EC00DDC6DE /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
@@ -39,6 +44,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				88717F45204ACCB100389A91 /* CouchbaseLiteListener.framework in Frameworks */,
+				88717F44204ACCB100389A91 /* CouchbaseLite.framework in Frameworks */,
 				ADF4A50A8D0A5399C142E9DE /* Pods_MemoryGame.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -58,7 +65,10 @@
 		662253A11483D8D929495F23 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				88717F41204ACCAB00389A91 /* MemoryGame-Bridging-Header.h */,
 				2B35437BCFDDAE9D0D17057B /* Pods_MemoryGame.framework */,
+				88717F42204ACCB100389A91 /* CouchbaseLite.framework */,
+				88717F43204ACCB100389A91 /* CouchbaseLiteListener.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -362,6 +372,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Z6AJ8YCXYJ;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/MemoryGame",
+				);
 				INFOPLIST_FILE = MemoryGame/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.makeschool.MemoryGame;
@@ -378,6 +392,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Z6AJ8YCXYJ;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/MemoryGame",
+				);
 				INFOPLIST_FILE = MemoryGame/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.makeschool.MemoryGame;
